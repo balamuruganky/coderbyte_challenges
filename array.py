@@ -1,5 +1,10 @@
 import math
 
+#
+# Return the string true if any two numbers can be multiplied so that the answer is 
+# greater than double the sum of all the elements in the array. 
+# If not, return the string false.
+#
 def sum_double_vs_two_bigger_elem_multiplied(arr: list) -> bool:
     sorted_arr = sorted(arr, reverse=True)
     first_two_mult = sorted_arr[0] * sorted_arr[1]
@@ -9,6 +14,7 @@ def sum_double_vs_two_bigger_elem_multiplied(arr: list) -> bool:
     else:
         return False
 
+#
 # Have the function ScaleBalancing(strArr) read strArr which will contain two
 # elements, the first being the two positive integer weights on a balance scale
 # (left and right sides) and the second element being a list of available
@@ -27,6 +33,7 @@ def sum_double_vs_two_bigger_elem_multiplied(arr: list) -> bool:
 # will not be empty. It is also possible to add two weights to only one side of
 # the scale to balance it. If it is not possible to balance the scale then your
 # program should return the string not possible.
+#
 
 def is_balaceable(left: int, right: int, available1: int, available2: int) -> bool:
     return ((left + available1) == (right + available2) or
