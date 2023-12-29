@@ -27,7 +27,7 @@ def calculate_distance(coord1, coord2):
     distance = math.fabs(coord2[0] - coord1[0]) + math.fabs(coord2[1] - coord1[1])
     return int(distance)
 
-def find_enemy(arr):
+def find_enemy(arr: list) -> int: 
     player = list()
     enemies  = list()
     # Convert ["0001", "0002"] to [[0 0 0 0], [0 0 0 2]]
@@ -129,8 +129,58 @@ def chessboard_travelling_v2(positions: list) -> int:
     left_steps_permutations = math.factorial(left_steps)
     top_steps_permutations  = math.factorial(top_steps)
     total_steps_permutations  = math.factorial(total_steps)
-
     return (total_steps_permutations // (left_steps_permutations * top_steps_permutations))
+
+#
+# Maximum Area
+#
+# Have the function MaximalSquare(strArr) take the strArr parameter being passed which will be a 
+# 2D matrix of 0 and 1's, and determine the area of the largest square submatrix that contains all 1's.
+# A square submatrix is one of equal width and height, and your program should return the area of the 
+# largest submatrix that contains only 1's. 
+# For example: if strArr is ["10100", "10111", "11111", "10010"] then this looks like the following matrix: 
+#
+# 1 0 1 0 0
+# 1 0 1 1 1
+# 1 1 1 1 1
+# 1 0 0 1 0 
+#
+# For the input above, you can see the bolded 1's create the largest square submatrix of size 2x2, 
+# so your program should return the area which is 4. You can assume the input will not be empty. 
+#
+# Hard challenges are worth 15 points and you are not timed for them.
+# 
+# Sample Test Cases
+#
+# Input:["0111", "1111", "1111", "1111"]
+#
+# Output:9
+#
+# Input:["0111", "1101", "0111"]
+#
+# Output:1
+#
+
+def is_valid_area(square_input: list, x: int, y: int, dim: int) -> bool:
+    area = 1;
+    for i in range(x, dim+x):
+        for j in range(y, dim+y):
+            area *= square_input[i][j]
+    return (True, dim*dim) if area == 1 else (False, 0)
+
+def maximum_area(arr: list) -> int:
+    square_input = [list(map(int, item)) for item in arr]
+    row_length = len(square_input)
+    col_length = len(square_input[0])
+    filter_length = min(row_length, col_length)
+
+    for square_dim in range(filter_length, 0, -1):
+        for row in range(0, len(square_input) - square_dim+1):
+            for col in range(0, len(square_input[row]) - square_dim+1):
+                ret, area = is_valid_area(square_input, row, col, square_dim)
+                if ret == True:
+                    return area 
+    return 0
 
 if __name__ == "__main__":
     print("************** find_enemy ***************")
@@ -171,3 +221,9 @@ if __name__ == "__main__":
     print(chessboard_travelling_v2([(2,2),(3,4)])) # => 3
     print(chessboard_travelling_v2([(1,1),(4,4)])) # => 20
     print(chessboard_travelling_v2([(1,1),(8,8)])) # => 3432
+
+    print("************** maximum_area ***************")
+    print(maximum_area(["0111", "1111", "1111", "1111"]))
+    print(maximum_area(["10100", "10111", "11111", "10010"]))
+    print(maximum_area(["10111", "10111", "11111", "11010"]))
+    print(maximum_area(["011", "111","000"]))
