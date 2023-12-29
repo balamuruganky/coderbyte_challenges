@@ -182,6 +182,54 @@ def maximum_area(arr: list) -> int:
                     return area 
     return 0
 
+#
+#
+# Have the function EightQueens(strArr) read strArr which will be an array
+# consisting of the locations of eight Queens on a standard 8x8 chess board
+# with no other pieces on the board. The structure of strArr will be the
+# following: ["(x,y)", "(x,y)", ...] where (x,y) represents the position of the
+# current queen on the chessboard (x and y will both range from 1 to 8 where
+# 1,1 is the bottom-left of the chessboard and 8,8 is the top-right). Your
+# program should determine if all of the queens are placed in such a way where
+# none of them are attacking each other. If this is true for the given input,
+# return the string "true" otherwise return the first queen in the list that is
+# attacking another piece in the same format it was provided.
+# 
+# For example: if strArr is ["(2,1)", "(4,2)", "(6,3)", "(8,4)", "(3,5)",
+# "(1,6)", "(7,7)", "(5,8)"] then your program should return the string true.
+# The corresponding chessboard of queens for this input is below (taken from
+# Wikipedia). 
+#
+
+def is_valid_pos(queen1_pos: list, queen2_pos: list) -> bool:
+    return ((queen1_pos != queen2_pos) and 
+            (queen1_pos[0] == queen2_pos[0] or
+             queen1_pos[1] == queen2_pos[1] or
+            (queen1_pos[0] + queen1_pos[1]) == (queen2_pos[0] + queen2_pos[1]) or
+            (queen1_pos[0] - queen1_pos[1]) == (queen2_pos[0] - queen2_pos[1])))
+
+def eight_queens(arr: str):
+    queen_postions = list()
+    for coords in arr:
+        num = None
+        pairs = list()
+        for ch in coords:
+            if ch.isdecimal():
+                if num is None:
+                    num = int(ch)
+                    pairs.insert(0, num)
+                else:
+                    num = int(ch)
+                    pairs.insert(1, num)
+        queen_postions.append(pairs)
+
+    for queen1 in range(len(queen_postions)-1):
+        for queen2 in range(queen1+1, len(queen_postions)):
+            if is_valid_pos(queen_postions[queen1], queen_postions[queen2]):
+                return queen_postions[queen1]
+
+    return True
+
 if __name__ == "__main__":
     print("************** find_enemy ***************")
     print(find_enemy(["000", "100", "200"])) # => 1
@@ -223,7 +271,16 @@ if __name__ == "__main__":
     print(chessboard_travelling_v2([(1,1),(8,8)])) # => 3432
 
     print("************** maximum_area ***************")
-    print(maximum_area(["0111", "1111", "1111", "1111"]))
-    print(maximum_area(["10100", "10111", "11111", "10010"]))
-    print(maximum_area(["10111", "10111", "11111", "11010"]))
-    print(maximum_area(["011", "111","000"]))
+    print(maximum_area(["0111", "1111", "1111", "1111"])) # => 9
+    print(maximum_area(["10100", "10111", "11111", "10010"])) # => 4
+    print(maximum_area(["10111", "10111", "11111", "11010"])) # => 9
+    print(maximum_area(["011", "111","000"])) # => 4
+
+    print("************** eight_queens ***************")
+    print(eight_queens(['(2,1)', '(4,2)', '(6,3)', '(8,4)', '(3,5)', '(1,6)', '(7,7)', '(5,8)'])) # => True
+    print(eight_queens(['(2,1)', '(4,2)', '(6,3)', '(8,4)', '(5,5)', '(3,6)', '(1,7)', '(7,8)'])) # => [6,3]
+    print(eight_queens(['(2,1)', '(4,2)', '(4,4)', '(8,4)', '(3,4)', '(1,6)', '(7,7)', '(5,8)'])) # => [4,2]
+    print(eight_queens(['(2,1)', '(4,2)', '(6,3)', '(8,3)', '(3,4)', '(1,6)', '(7,7)', '(5,8)'])) # => [6,3]
+    print(eight_queens(['(2,1)', '(4,3)', '(6,3)', '(8,4)', '(3,4)', '(1,6)', '(7,7)', '(5,8)'])) # => [2,1]
+    print(eight_queens(['(2,1)', '(4,2)', '(3,3)', '(8,4)', '(7,5)', '(3,6)', '(1,7)', '(7,8)'])) # => [4,2]
+    print(eight_queens(['(2,1)', '(5,3)', '(6,3)', '(8,4)', '(3,4)', '(1,8)', '(7,7)', '(5,8)'])) # => [5,3]
