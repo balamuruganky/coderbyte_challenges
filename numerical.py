@@ -72,6 +72,43 @@ def factorial_v2(num: int) -> int:
         result *= i 
     return result
 
+#
+# kaprekars_constant
+#
+# Have the function kaprekars_constant(num) take the num parameter being passed which will be a 
+# 4-digit number with at least two distinct digits. Your program should perform the following routine 
+# on the number: Arrange the digits in descending order and in ascending order (adding zeroes to fit it 
+# to a 4-digit number), and subtract the smaller number from the bigger number. Then repeat the previous step. 
+# Performing this routine will always cause you to reach a fixed number: 6174. 
+# Then performing the routine on 6174 will always give you 6174 (7641 - 1467 = 6174). 
+# Your program should return the number of times this routine must be performed until 6174 is reached. 
+# For example: if num is 3524 your program should return 3 because of the following steps: 
+#              (1) 5432 - 2345 = 3087, (2) 8730 - 0378 = 8352, (3) 8532 - 2358 = 6174. 
+#
+# Hard challenges are worth 15 points and you are not timed for them.
+# Sample Test Cases
+#
+# Input:2111
+# Output:5
+#
+# Input:9831
+# Output:7
+#
+
+count = 0
+def kaprekars_constant(num: str) -> int:
+    global count
+    if num == "6174":
+        return count
+    else:
+        ascending_num = int("".join(sorted(num)))
+        descending_num = int("".join(sorted(num, reverse=True)))
+        subracted_str = str(abs(ascending_num - descending_num))
+        if ((length_sub_str:=len(subracted_str)) < 4):
+            subracted_str = "0"*(4 - length_sub_str) + subracted_str
+    count += 1
+    return kaprekars_constant(subracted_str)
+
 if __name__ == "__main__":
     print("************* sum_of_all_integers **************")
     print(sum_of_all_integers_v1(-3, 4))
@@ -95,3 +132,10 @@ if __name__ == "__main__":
     print(factorial_v2(5))
     print(factorial_v1(10))
     print(factorial_v2(10))
+    print("*************  kaprekars_constant **************")
+    count = 0 # Reset the global variable to 0. This is why I hate global variables
+    print(kaprekars_constant("3524"))
+    count = 0 # Reset the global variable to 0. This is why I hate global variables
+    print(kaprekars_constant("2111"))
+    count = 0 # Reset the global variable to 0. This is why I hate global variables
+    print(kaprekars_constant("9831"))
