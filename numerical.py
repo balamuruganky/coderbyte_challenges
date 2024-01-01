@@ -109,6 +109,31 @@ def kaprekars_constant(num: str) -> int:
     count += 1
     return kaprekars_constant(subracted_str)
 
+#
+# Write a program to find out the number guessed by someone.
+# The input to the method should be lower and upper bound. The program should take "Y" or "N" to
+# allow to find out the number guessed by someone.
+#
+# For eg. If the lower bound is 1 and the upper bound is 100, then find a number between
+# these number by taking input as "Y" or "N".
+#
+
+def guess_the_number(low: int, high: int) -> None:
+    if (high == low+1):
+        print(f"Your guess is {low}")
+        return low
+    else:
+        mid_val = abs(high + low) // 2
+        print(f"Is the number ranges from {mid_val} to {high}")
+        user_input = input()
+        if user_input[0] in ["N","n"]:
+            high = mid_val
+        elif user_input[0] in ["Y","y"]:
+            low = mid_val
+        else:
+            print("Please enter 'Y' or 'N'")
+        return guess_the_number(low, high)
+
 if __name__ == "__main__":
     print("************* sum_of_all_integers **************")
     print(sum_of_all_integers_v1(-3, 4))
@@ -139,3 +164,5 @@ if __name__ == "__main__":
     print(kaprekars_constant("2111"))
     count = 0 # Reset the global variable to 0. This is why I hate global variables
     print(kaprekars_constant("9831"))
+
+    guess_the_number(1, 1000)
